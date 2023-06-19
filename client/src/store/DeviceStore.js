@@ -8,7 +8,6 @@ export default class DeviceStore {
     this._types = [
       { id: 1, name: 'fridger' },
       { id: 2, name: 'smartPhone' },
-
       { id: 3, name: 'LapTop' },
       { id: 4, name: 'TV' },
     ]
