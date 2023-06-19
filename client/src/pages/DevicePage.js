@@ -8,7 +8,7 @@ const DevicePage = () => {
   const { id } = useParams()
   console.log(id)
   useEffect(() => {
-    console.log(fetchOneDevice(id))
+    fetchOneDevice(id).then((data) => setDevice(data))
   }, [])
   return (
     <Container className="mt-3">
