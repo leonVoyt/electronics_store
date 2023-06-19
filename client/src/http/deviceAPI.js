@@ -1,5 +1,5 @@
 import { $autHost, $host } from './main'
-export const createType = async (type) => {
+export const createTypeInDb = async (type) => {
   const { data } = await $autHost.post('api/type', type)
   return data
 }
@@ -27,5 +27,6 @@ export const fetchDevice = async () => {
 }
 export const fetchOneDevice = async (id) => {
   const { data } = await $host.get('api/device/' + id)
+  console.log(data)
   return data
 }
