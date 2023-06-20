@@ -51,6 +51,12 @@ class UserController {
     const user = await User.destroy({ where: { email } })
     res.json(user)
   }
+
+  async getUser(req, res, next) {
+    const { email } = req.params
+    let user = await User.findOne({ where: { email } })
+    return res.json(user)
+  }
 }
 
 module.exports = new UserController()

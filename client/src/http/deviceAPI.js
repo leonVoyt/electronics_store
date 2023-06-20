@@ -34,6 +34,10 @@ export const fetchDevice = async (typeId, brandId, page, limit = 5) => {
 }
 export const fetchOneDevice = async (id) => {
   const { data } = await $host.get('api/device/' + id)
-  console.log(data)
+  return data
+}
+
+export const createRating = async (rating) => {
+  const { data } = await $autHost.post('api/rating', rating)
   return data
 }

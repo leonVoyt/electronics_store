@@ -1,14 +1,36 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Card, Col, Container, Image, Row, Button } from 'react-bootstrap'
 import bigstar from '../assets/bigStar.png'
 import { useParams } from 'react-router-dom'
-import { fetchOneDevice } from './../http/deviceAPI'
+import { createRating, fetchOneDevice } from './../http/deviceAPI'
+import { Context } from './../index'
+import { getUser } from '../http/userAPI'
 const DevicePage = () => {
   const [device, setDevice] = useState({ info: [] })
   const { id } = useParams()
+  const [userId, setUserId] = useState(0)
   useEffect(() => {
-    fetchOneDevice(id).then((data) => setDevice(data))
+    fetchOneDevice(id)
+      .then((data) => setDevice(data))
+      .then(() =>
+        getUser('user@mail.ua').then((data) => setUserId(data.data.id))
+      )
   }, [])
+
+  // const addRating = () => {
+  //   createRating({ name: 5, userId: userId, deviceId: device.id })
+  //   console.log(userId)
+  // }
+
+  const addRating = () => {
+    // console.log(userId)
+    const formData = new FormData()
+    formData.append('name', '5')
+    formData.append('userId', `${userId}`)
+    formData.append('deviceId', `${device.id}`)
+    createRating(formData)
+    console.log(userId)
+  }
   return (
     <Container className="mt-3">
       <Row>
@@ -21,7 +43,7 @@ const DevicePage = () => {
         </Col>
         <Col md={4}>
           <Row className="d-flex flex-column align-items-center">
-            <h2>{device.name}</h2>
+            <h2>{device.name} </h2>
             <div
               className="d-flex align-items-center justify-content-center"
               style={{
@@ -34,6 +56,9 @@ const DevicePage = () => {
             >
               {device.rating}
             </div>
+            <Button variant="outline-dark" onClick={() => addRating()}>
+              Add rating
+            </Button>
           </Row>
         </Col>
         <Col md={4}>

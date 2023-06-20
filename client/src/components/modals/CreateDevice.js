@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Button, Col, Dropdown, Form, Modal, Row } from 'react-bootstrap'
 import { Context } from './../../index'
-import { fetchBrands, fetchDevice, fetchTypes } from '../../http/deviceAPI'
+import { fetchBrands, fetchTypes } from '../../http/deviceAPI'
 import { observer } from 'mobx-react-lite'
 import { createDevice } from './../../http/deviceAPI'
 const CreateDevice = observer(({ show, onHide }) => {

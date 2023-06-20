@@ -10,7 +10,11 @@ export default class DeviceStore {
     this._types = []
     this._brands = []
     this._devices = []
+    this._rating = []
     makeAutoObservable(this)
+  }
+  setRating(rating) {
+    this._rating = rating
   }
   setSelectedType(type) {
     this.setPage(1)
@@ -39,6 +43,9 @@ export default class DeviceStore {
     this._totalCount = totalCount
   }
 
+  get rating() {
+    return this._rating
+  }
   get types() {
     return this._types
   }
