@@ -11,6 +11,11 @@ class RatibgController {
     const rating = await Rating.findAll()
     return res.json(rating)
   }
+  async getFilter(req, res) {
+    const { deviceId } = req.params
+    const rating = await Rating.findAll({ where: { deviceId } })
+    return res.json(rating)
+  }
 }
 
 module.exports = new RatibgController()

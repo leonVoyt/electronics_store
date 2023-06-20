@@ -36,8 +36,17 @@ export const fetchOneDevice = async (id) => {
   const { data } = await $host.get('api/device/' + id)
   return data
 }
+export const updateOneDeviceR = async (id, rating) => {
+  const { data } = await $autHost.patch(`api/device/patch/${id}/${rating}`)
+  return data
+}
 
 export const createRating = async (rating) => {
   const { data } = await $autHost.post('api/rating', rating)
+  return data
+}
+
+export const getRating = async (deviceId) => {
+  const { data } = await $autHost.get('api/rating/' + deviceId)
   return data
 }

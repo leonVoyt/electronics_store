@@ -2,13 +2,30 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Card, Col, Container, Image, Row, Button } from 'react-bootstrap'
 import bigstar from '../assets/bigStar.png'
 import { useParams } from 'react-router-dom'
-import { createRating, fetchOneDevice } from './../http/deviceAPI'
-import { Context } from './../index'
+import {
+  createRating,
+  fetchOneDevice,
+  updateOneDeviceR,
+} from './../http/deviceAPI'
+// import { Context } from './../index'
 import { getUser } from '../http/userAPI'
+import { useCountRating } from '../hooks/useCountRating'
+
 const DevicePage = () => {
   const [device, setDevice] = useState({ info: [] })
   const { id } = useParams()
   const [userId, setUserId] = useState(0)
+  const count = useCountRating(id)
+
+  function coun() {
+    console.log(count)
+
+    let total = 0
+    count.map((c) => (total += Number(c.name)))
+    let res = total / count.length
+    console.log(res)
+    return res.toFixed(1).toString()
+  }
   useEffect(() => {
     fetchOneDevice(id)
       .then((data) => setDevice(data))
@@ -16,20 +33,19 @@ const DevicePage = () => {
         getUser('user@mail.ua').then((data) => setUserId(data.data.id))
       )
   }, [])
-
   // const addRating = () => {
   //   createRating({ name: 5, userId: userId, deviceId: device.id })
   //   console.log(userId)
   // }
-
-  const addRating = () => {
-    // console.log(userId)
+  function addRating() {
     const formData = new FormData()
-    formData.append('name', '5')
+    formData.append('name', '3')
     formData.append('userId', `${userId}`)
     formData.append('deviceId', `${device.id}`)
+
     createRating(formData)
-    console.log(userId)
+      .then(() => updateOneDeviceR(device.id, coun()))
+      .then(() => fetchOneDevice(id).then((data) => setDevice(data)))
   }
   return (
     <Container className="mt-3">
@@ -72,7 +88,9 @@ const DevicePage = () => {
             }}
           >
             <h3>price: {device.price}$</h3>
-            <Button variant="outline-dark">Add to basket</Button>
+            <Button variant="outline-dark" onClick={() => coun()}>
+              Add to basket
+            </Button>
           </Card>
         </Col>
       </Row>

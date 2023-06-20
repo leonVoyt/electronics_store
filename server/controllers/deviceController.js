@@ -86,6 +86,25 @@ class DeviceController {
       next(ApiError.badRequest(error.message))
     }
   }
+  async updateOne(req, res, next) {
+    try {
+      const { id, rating } = req.params
+
+      const device = await Device.update(
+        {
+          rating: rating,
+        },
+        {
+          where: {
+            id: id,
+          },
+        }
+      )
+      return res.json(device)
+    } catch (error) {
+      next(ApiError.badRequest(error.message))
+    }
+  }
 }
 
 module.exports = new DeviceController()
