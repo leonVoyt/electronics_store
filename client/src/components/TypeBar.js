@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext } from 'react'
 import { Context } from './../index'
-import { ListGroup, ListGroupItem } from 'react-bootstrap'
+import { ListGroup } from 'react-bootstrap'
 const TypeBar = observer(() => {
   const { device } = useContext(Context)
   return (
@@ -16,6 +16,12 @@ const TypeBar = observer(() => {
           {type.name}
         </ListGroup.Item>
       ))}
+      <ListGroup.Item
+        style={{ cursor: 'pointer' }}
+        onClick={() => device.setSelectedType({})}
+      >
+        All
+      </ListGroup.Item>
     </ListGroup>
   )
 })
