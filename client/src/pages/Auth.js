@@ -21,11 +21,13 @@ const Auth = observer(() => {
       } else {
         data = await registration(email, password)
       }
+      localStorage.setItem('user', email)
 
       user.setUser(user)
       user.setIsAuth(true)
       history(SHOP_ROUTE)
     } catch (error) {
+      localStorage.removeItem('user')
       alert(error.response.data.message)
     }
   }

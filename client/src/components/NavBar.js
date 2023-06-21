@@ -32,7 +32,10 @@ const Navigbar = observer(() => {
             </Button>
             <Button
               variant={'outline-light'}
-              onClick={() => logOut()}
+              onClick={() => {
+                localStorage.removeItem('user')
+                logOut()
+              }}
               style={{ marginLeft: '1em' }}
             >
               Exit

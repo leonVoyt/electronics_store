@@ -8,25 +8,35 @@ import {
   getRating,
   updateOneDeviceR,
 } from './../http/deviceAPI'
-// import { Context } from './../index'
+import { Context } from './../index'
 import { getUser } from '../http/userAPI'
 import RatingImage from '../components/RatingImage'
 
 const DevicePage = () => {
+  const { user } = useContext(Context)
   const [device, setDevice] = useState({ info: [] })
   const { id } = useParams()
   const [userId, setUserId] = useState(0)
   const [rate, setRate] = useState(0)
+  // fetchOneDevice(id).then((data) => console.log(data))
+  // console.log(user)
+  const currentColor = localStorage.getItem('user')
+  getRating(id).then((data) => console.log(data))
+  // console.log(currentColor)
+  // getUser(currentColor).then((data) => console.log(data.data))
 
   useEffect(() => {
-    fetchOneDevice(id)
-      .then((data) => setDevice(data))
-      .then(() =>
-        getUser('user@mail.ua').then((data) => setUserId(data.data.id))
-      )
+    if (currentColor) {
+      fetchOneDevice(id)
+        .then((data) => setDevice(data))
+        .then(() =>
+          getUser(currentColor).then((data) => setUserId(data.data.id))
+        )
+    }
   }, [])
 
   useEffect(() => {
+    // if()
     getRating(id).then((data) => {
       if (data.length !== 0) {
         let res = 0
@@ -40,12 +50,31 @@ const DevicePage = () => {
   }, [rate])
 
   async function addRating(rating) {
-    const formData = new FormData()
-    formData.append('name', `${rating}`)
-    formData.append('userId', `${userId}`)
-    formData.append('deviceId', `${device.id}`)
-    await createRating(formData).then((data) => setRate(data))
+    let arr = []
+
+    if (!currentColor) {
+      return alert('you do`nt authorizated ')
+    } else if (currentColor) {
+      await getRating(id).then((data) => {
+        data.map((d) => {
+          arr.push(d.userId)
+        })
+        if (arr.includes(userId)) {
+          return alert('you posted')
+        } else {
+          add()
+        }
+      })
+    }
+    async function add() {
+      const formData = new FormData()
+      formData.append('name', `${rating}`)
+      formData.append('userId', `${userId}`)
+      formData.append('deviceId', `${device.id}`)
+      await createRating(formData).then((data) => setRate(data))
+    }
   }
+
   return (
     <Container className="mt-3">
       <Row>
