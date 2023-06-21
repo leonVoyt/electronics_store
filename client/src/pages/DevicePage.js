@@ -16,49 +16,35 @@ const DevicePage = () => {
   const [device, setDevice] = useState({ info: [] })
   const { id } = useParams()
   const [userId, setUserId] = useState(0)
-  const [count, setCount] = useState(0)
-  const [rate, useRate] = useState(0)
-  async function sda() {
-    getRating(id).then((data) => setCount(data))
-  }
+  const [rate, setRate] = useState(0)
 
-  function coun() {
-    console.log(count)
-
-    let total = 0
-    count.map((c) => (total += Number(c.name)))
-    let res = total / count.length
-    console.log(res)
-    return res.toFixed(1).toString()
-  }
-  async function reload() {
-    getRating(id).then((data) => console.log(data))
-  }
   useEffect(() => {
     fetchOneDevice(id)
       .then((data) => setDevice(data))
       .then(() =>
         getUser('user@mail.ua').then((data) => setUserId(data.data.id))
       )
-      .then(() => sda())
   }, [])
+
+  useEffect(() => {
+    getRating(id).then((data) => {
+      if (data.length !== 0) {
+        let res = 0
+        data.map((d) => (res += Number(d.name)))
+        let average = (res / data.length).toFixed(1).toString()
+        updateOneDeviceR(id, average)
+          .then(() => fetchOneDevice(id))
+          .then((data) => setDevice(data))
+      }
+    })
+  }, [rate])
 
   async function addRating(rating) {
     const formData = new FormData()
     formData.append('name', `${rating}`)
     formData.append('userId', `${userId}`)
     formData.append('deviceId', `${device.id}`)
-
-    await createRating(formData)
-      .then(() => console.log(count))
-      .then(() => sda())
-      .then(() => console.log(count))
-
-      .then(() => updateOneDeviceR(device.id, coun()))
-      .then(() => console.log(count))
-
-      .then(() => fetchOneDevice(id).then((data) => setDevice(data)))
-      .then(() => console.log(count))
+    await createRating(formData).then((data) => setRate(data))
   }
   return (
     <Container className="mt-3">
@@ -92,17 +78,16 @@ const DevicePage = () => {
               </div>
               <div onClick={() => addRating(2)}>
                 <RatingImage rating={2}></RatingImage>
-              </div>{' '}
+              </div>
               <div onClick={() => addRating(3)}>
                 <RatingImage rating={3}></RatingImage>
-              </div>{' '}
+              </div>
               <div onClick={() => addRating(4)}>
                 <RatingImage rating={4}></RatingImage>
-              </div>{' '}
-              <div onClick={async () => addRating(5)}>
+              </div>
+              <div onClick={() => addRating(5)}>
                 <RatingImage rating={5}></RatingImage>
               </div>
-              <Button onClick={() => reload()}></Button>
             </div>
           </Row>
         </Col>
@@ -117,9 +102,7 @@ const DevicePage = () => {
             }}
           >
             <h3>price: {device.price}$</h3>
-            <Button variant="outline-dark" onClick={() => coun()}>
-              Add to basket
-            </Button>
+            <Button variant="outline-dark">Add to basket</Button>
           </Card>
         </Col>
       </Row>
