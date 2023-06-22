@@ -3,6 +3,7 @@ import { Card, Col, Container, Image, Row, Button } from 'react-bootstrap'
 import bigstar from '../assets/bigStar.png'
 import { useParams } from 'react-router-dom'
 import {
+  createBasketDevice,
   createRating,
   fetchOneDevice,
   getRating,
@@ -13,17 +14,12 @@ import { getUser } from '../http/userAPI'
 import RatingImage from '../components/RatingImage'
 
 const DevicePage = () => {
-  const { user } = useContext(Context)
   const [device, setDevice] = useState({ info: [] })
   const { id } = useParams()
   const [userId, setUserId] = useState(0)
   const [rate, setRate] = useState(0)
-  // fetchOneDevice(id).then((data) => console.log(data))
-  // console.log(user)
   const currentColor = localStorage.getItem('user')
-  getRating(id).then((data) => console.log(data))
-  // console.log(currentColor)
-  // getUser(currentColor).then((data) => console.log(data.data))
+  // getRating(id).then((data) => console.log(data))
 
   useEffect(() => {
     if (currentColor) {
@@ -73,6 +69,13 @@ const DevicePage = () => {
       formData.append('deviceId', `${device.id}`)
       await createRating(formData).then((data) => setRate(data))
     }
+  }
+
+  async function addToBasket() {
+    const formData = new FormData()
+    formData.append('basketId', `${userId}`)
+    formData.append('deviceId', `${device.id}`)
+    await createBasketDevice(formData)
   }
 
   return (
@@ -131,7 +134,9 @@ const DevicePage = () => {
             }}
           >
             <h3>price: {device.price}$</h3>
-            <Button variant="outline-dark">Add to basket</Button>
+            <Button variant="outline-dark" onClick={() => addToBasket()}>
+              Add to basket
+            </Button>
           </Card>
         </Col>
       </Row>

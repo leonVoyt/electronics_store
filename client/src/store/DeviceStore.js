@@ -11,7 +11,11 @@ export default class DeviceStore {
     this._brands = []
     this._devices = []
     this._rating = []
+    this._deviceBasket = []
     makeAutoObservable(this)
+  }
+  setDeviceBasket(deviceBasket) {
+    this._deviceBasket = deviceBasket
   }
   setRating(rating) {
     this._rating = rating
@@ -70,5 +74,9 @@ export default class DeviceStore {
   }
   get totalCount() {
     return this._totalCount
+  }
+
+  get deviceBasket() {
+    return this._deviceBasket
   }
 }

@@ -21,7 +21,7 @@ export const createDevice = async (device) => {
   const { data } = await $autHost.post('api/device', device)
   return data
 }
-export const fetchDevice = async (typeId, brandId, page, limit = 5) => {
+export const fetchDevice = async (typeId, brandId, page, limit = 9) => {
   const { data } = await $host.get('api/device', {
     params: {
       typeId,
@@ -48,5 +48,27 @@ export const createRating = async (rating) => {
 
 export const getRating = async (deviceId) => {
   const { data } = await $autHost.get('api/rating/' + deviceId)
+  return data
+}
+
+export const createBasketDevice = async (device) => {
+  const { data } = await $autHost.post('api/basketdevice', device)
+  return data
+}
+
+export const fetchcBasketDevice = async () => {
+  const { data } = await $autHost.get('api/basketdevice')
+  return data
+}
+export const fetchcUserBasketDevice = async (basketId) => {
+  const { data } = await $autHost.get('api/basketdevice/' + basketId)
+  return data
+}
+export const deleteUserBasketDevice = async (id) => {
+  if (id === undefined) {
+    throw new Error('Invalid id parameter')
+  }
+  // console.log(body)
+  const { data } = await $autHost.delete('api/basketdevice/delete/' + id)
   return data
 }
