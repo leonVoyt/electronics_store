@@ -79,7 +79,6 @@ class DeviceController {
   async deleteOne(req, res) {
     try {
       const { id } = req.params
-
       const device = await Device.destroy({ where: { id } })
       return res.json(device)
     } catch (error) {

@@ -41,6 +41,11 @@ export const updateOneDeviceR = async (id, rating) => {
   return data
 }
 
+export const deleteOneDevice = async (id) => {
+  const { data } = await $host.delete('api/device/' + id)
+  return data
+}
+
 export const createRating = async (rating) => {
   const { data } = await $autHost.post('api/rating', rating)
   return data

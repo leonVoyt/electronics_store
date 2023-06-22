@@ -14,6 +14,8 @@ import { Context } from '../index'
 import { observer } from 'mobx-react-lite'
 
 const Navigbar = observer(() => {
+  const currentColor = localStorage.getItem('user')
+
   const { user } = useContext(Context)
   const history = useNavigate()
 
@@ -22,13 +24,23 @@ const Navigbar = observer(() => {
     user.setIsAuth(false)
   }
   return (
-    <Navbar bg="dark" data-bs-theme="dark">
+    <Navbar
+      bg="dark"
+      data-bs-theme="dark"
+      style={{
+        textAlign: 'center',
+        justifyContent: 'center',
+      }}
+    >
       <Container>
-        <NavLink style={{ color: 'white' }} to={SHOP_ROUTE}>
+        <NavLink
+          style={{ color: 'white', textDecoration: 'none' }}
+          to={SHOP_ROUTE}
+        >
           Electronic shoper
         </NavLink>
-        {user.isAuth ? (
-          <Nav className="ml-auto" style={{ color: 'white' }}>
+        {currentColor ? (
+          <Nav className="ml-auto " style={{ color: 'white' }}>
             <Button
               variant={'outline-light'}
               onClick={() => history(BASKET_ROUTE)}
@@ -46,6 +58,7 @@ const Navigbar = observer(() => {
             <Button
               variant={'outline-light'}
               onClick={() => {
+                history(SHOP_ROUTE)
                 localStorage.removeItem('user')
                 logOut()
               }}
@@ -53,6 +66,9 @@ const Navigbar = observer(() => {
             >
               Exit
             </Button>
+            <h6 style={{ marginLeft: '1em', marginTop: '0.4em' }}>
+              {currentColor}
+            </h6>
           </Nav>
         ) : (
           <Nav className="ml-auto" style={{ color: 'white' }}>

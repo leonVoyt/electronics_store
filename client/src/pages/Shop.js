@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import TypeBar from '../components/TypeBar'
 import BrandBar from '../components/BrandBar'
@@ -7,13 +7,19 @@ import { observer } from 'mobx-react-lite'
 import { Context } from './../index'
 import { fetchBrands, fetchDevice, fetchTypes } from '../http/deviceAPI'
 import PaginCom from '../components/Pagination'
+
 const Shop = observer(() => {
   const { device } = useContext(Context)
+  const [reload, setReload] = useState(false)
+  const change = (data) => {
+    setReload(data)
+  }
   useEffect(() => {
     fetchDevice(
       device.selectedType.id,
       device.selectedBrand.id,
-      device.page
+      device.page,
+      8
     ).then((data) => {
       device.setDevices(data.rows)
       device.setTotalCount(data.count)
@@ -22,11 +28,13 @@ const Shop = observer(() => {
   useEffect(() => {
     fetchTypes().then((data) => device.setTypes(data))
     fetchBrands().then((data) => device.setBrands(data))
-    fetchDevice(null, null, 1, 9).then((data) => {
-      device.setDevices(data.rows)
-      device.setTotalCount(data.count)
-    })
-  }, [])
+    fetchDevice(null, null, 1, 8)
+      .then((data) => {
+        device.setDevices(data.rows)
+        device.setTotalCount(data.count)
+      })
+      .then(() => setReload(false))
+  }, [reload])
 
   return (
     <Container>
@@ -36,7 +44,7 @@ const Shop = observer(() => {
         </Col>
         <Col md={9}>
           <BrandBar />
-          <DeviceList />
+          <DeviceList onChange={change} />
           <PaginCom />
         </Col>
       </Row>

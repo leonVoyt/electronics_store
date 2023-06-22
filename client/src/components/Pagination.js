@@ -5,7 +5,6 @@ import { Pagination } from 'react-bootstrap'
 const PaginCom = observer(() => {
   const { device } = useContext(Context)
   const pageCount = Math.ceil(device.totalCount / device.limit)
-  // console.log(device.totalCount / device.limit)
   const pages = []
   for (let index = 0; index < pageCount; index++) {
     pages.push(index + 1)
@@ -14,6 +13,7 @@ const PaginCom = observer(() => {
     <Pagination className="mt-5">
       {pages.map((page) => (
         <Pagination.Item
+          style={{ color: 'black' }}
           key={page}
           active={device.page === page}
           onClick={() => device.setPage(page)}
