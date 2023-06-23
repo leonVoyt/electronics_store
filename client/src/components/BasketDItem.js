@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { deleteUserBasketDevice, fetchOneDevice } from '../http/deviceAPI'
 
 const BasketItem = ({ device, isReload }) => {
-  const [basketDevice, setBasketDevice] = useState('')
+  const [basketDevice, setBasketDevice] = useState({})
   const history = useNavigate()
   const [reload, setReload] = useState(true)
   // console.log(basketDevice)
@@ -23,48 +23,81 @@ const BasketItem = ({ device, isReload }) => {
   }
 
   useEffect(() => {
-    fetchOneDevice(device.deviceId)
-      .then((data) => setBasketDevice(data))
-      .then(() => setId(device.id))
+    if (device.deviceId) {
+      fetchOneDevice(device.deviceId)
+        .then((data) => setBasketDevice(data))
+        .then(() => setId(device.id))
+    }
   }, [reload])
-
+  // console.log(device)
   return (
     <Col>
-      <Col
-        md={3}
-        className={'mt-3'}
-        onClick={() => history(`/device/${device.deviceId}`)}
-      >
-        <Card style={{ width: 150, cursor: 'pointer' }} border={'light'}>
-          <Image
-            width={150}
-            height={150}
-            src={process.env.REACT_APP_API_URL + basketDevice.img}
-          />
-          <div>price:{basketDevice.price}$</div>
-          <div className="text-black-50 mt-1 d-flex justify-content-between align-items-center">
-            {/* <div>price:{basketDevice.price}$</div> */}
-            <div>{basketDevice.name}</div>
+      {!device.deviceId ? (
+        <Col>
+          <Col>
+            <Col md={3} className={'mt-3'}>
+              <Card style={{ width: 150, cursor: 'pointer' }} border={'light'}>
+                <Image
+                  width={150}
+                  height={150}
+                  src={process.env.REACT_APP_API_URL}
+                />
+                <div className="text-black-50 mt-1 d-flex justify-content-between align-items-center">
+                  {/* <div>price:{basketDevice.price}$</div> */}
 
-            <div className="d-flex align-items-center">
-              <div>{basketDevice.rating}</div>
-              <Image width={18} height={18} src={star} />
-            </div>
-          </div>
-          <Button style={{ marginTop: '1em' }} variant={'outline-success'}>
-            Buy
-          </Button>
-        </Card>
-      </Col>
-      <Button
-        style={{ marginTop: '1em' }}
-        variant={'outline-danger'}
-        onClick={() => {
-          deleteDevice()
-        }}
-      >
-        delete
-      </Button>
+                  <div className="d-flex align-items-center"></div>
+                </div>
+              </Card>
+            </Col>
+            <Button style={{ marginTop: '1em' }} variant={'outline-danger'}>
+              delete
+            </Button>
+          </Col>
+        </Col>
+      ) : (
+        <Col>
+          <Col>
+            <Col
+              md={3}
+              className={'mt-3'}
+              onClick={() => history(`/device/${device.deviceId}`)}
+            >
+              <Card style={{ width: 150, cursor: 'pointer' }} border={'light'}>
+                <Image
+                  width={150}
+                  height={150}
+                  src={process.env.REACT_APP_API_URL + basketDevice.img}
+                />
+                <div>price:{basketDevice.price}$</div>
+                <div className="text-black-50 mt-1 d-flex justify-content-between align-items-center">
+                  {/* <div>price:{basketDevice.price}$</div> */}
+                  <div>{basketDevice.name}</div>
+
+                  <div className="d-flex align-items-center">
+                    <div>{basketDevice.rating}</div>
+                    <Image width={18} height={18} src={star} />
+                  </div>
+                </div>
+                <Button
+                  style={{ marginTop: '1em' }}
+                  variant={'outline-success'}
+                >
+                  Buy
+                </Button>
+              </Card>
+            </Col>
+            <Button
+              style={{ marginTop: '1em' }}
+              variant={'outline-danger'}
+              onClick={() => {
+                deleteDevice()
+              }}
+            >
+              delete
+            </Button>
+          </Col>
+        </Col>
+      )}
     </Col>
   )
 }

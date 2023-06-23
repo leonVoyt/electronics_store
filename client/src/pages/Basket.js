@@ -14,8 +14,9 @@ const Basket = observer(() => {
   const currentColor = localStorage.getItem('user')
   const [userId, setUserId] = useState(0)
   const [basketItem, setBasketItem] = useState([])
-  const totalPrice = useTotalPrice(basketItem.map((item) => item.deviceId))
+  var totalPrice = useTotalPrice(basketItem.map((item) => item.deviceId))
   const [reload, setReload] = useState(false)
+
   const set = (data) => {
     setReload(data)
   }

@@ -67,13 +67,17 @@ class DeviceController {
     }
     return res.json(devices)
   }
-  async getOne(req, res) {
-    const { id } = req.params
-    const device = await Device.findOne({
-      where: { id },
-      include: [{ model: DeviceInfo, as: 'info' }],
-    })
-    return res.json(device)
+  async getOne(req, res, next) {
+    try {
+      const { id } = req.params
+      const device = await Device.findOne({
+        where: { id },
+        include: [{ model: DeviceInfo, as: 'info' }],
+      })
+      return res.json(device)
+    } catch (error) {
+      next(ApiError.badRequest(error.message))
+    }
   }
 
   async deleteOne(req, res) {
