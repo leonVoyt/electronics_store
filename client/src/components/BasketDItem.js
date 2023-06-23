@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Card, Col, Image, Row } from 'react-bootstrap'
+import { Button, Card, Col, Image } from 'react-bootstrap'
 import star from '../assets/star.png'
 import { useNavigate } from 'react-router-dom'
 import { deleteUserBasketDevice, fetchOneDevice } from '../http/deviceAPI'
@@ -8,13 +8,9 @@ const BasketItem = ({ device, isReload }) => {
   const [basketDevice, setBasketDevice] = useState({})
   const history = useNavigate()
   const [reload, setReload] = useState(true)
-  // console.log(basketDevice)
-  const [id, setId] = useState(0)
-  // function setIsReload() {
-  //   isReload(reload)
-  // }
+
   const deleteDevice = () => {
-    deleteUserBasketDevice(id)
+    deleteUserBasketDevice(device.id)
       .catch((err) => console.log(err))
       .then(() => setReload(true))
       .then(() => {
@@ -24,12 +20,9 @@ const BasketItem = ({ device, isReload }) => {
 
   useEffect(() => {
     if (device.deviceId) {
-      fetchOneDevice(device.deviceId)
-        .then((data) => setBasketDevice(data))
-        .then(() => setId(device.id))
+      fetchOneDevice(device.deviceId).then((data) => setBasketDevice(data))
     }
-  }, [reload])
-  // console.log(device)
+  }, [reload, device.deviceId])
   return (
     <Col>
       {!device.deviceId ? (
@@ -49,7 +42,13 @@ const BasketItem = ({ device, isReload }) => {
                 </div>
               </Card>
             </Col>
-            <Button style={{ marginTop: '1em' }} variant={'outline-danger'}>
+            <Button
+              style={{ marginTop: '1em' }}
+              variant={'outline-danger'}
+              onClick={() => {
+                deleteDevice()
+              }}
+            >
               delete
             </Button>
           </Col>

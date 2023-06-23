@@ -20,7 +20,7 @@ const TypeBar = observer(() => {
         style={{ cursor: 'pointer' }}
         onClick={() => device.setSelectedType({})}
       >
-        All
+        All brands
       </ListGroup.Item>
     </ListGroup>
   )

@@ -24,7 +24,7 @@ const CreateDevice = observer(({ show, onHide }) => {
   useEffect(() => {
     fetchTypes().then((data) => device.setTypes(data))
     fetchBrands().then((data) => device.setBrands(data))
-  }, [])
+  }, [device.brands, device.types])
 
   const changeInfo = (key, value, number) => {
     setInfo(info.map((i) => (i.number === number ? { ...i, [key]: value } : i)))

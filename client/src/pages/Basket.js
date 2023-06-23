@@ -1,9 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
-import {
-  fetchOneDevice,
-  fetchcBasketDevice,
-  fetchcUserBasketDevice,
-} from '../http/deviceAPI'
+import React, { useEffect, useState } from 'react'
+import { fetchcUserBasketDevice } from '../http/deviceAPI'
 import { observer } from 'mobx-react-lite'
 import { getUser } from '../http/userAPI'
 import { Row } from 'react-bootstrap'
@@ -16,15 +12,15 @@ const Basket = observer(() => {
   const [basketItem, setBasketItem] = useState([])
   var totalPrice = useTotalPrice(basketItem.map((item) => item.deviceId))
   const [reload, setReload] = useState(false)
-
   const set = (data) => {
     setReload(data)
   }
+
   useEffect(() => {
     if (currentColor) {
       getUser(currentColor).then((data) => setUserId(data.data.id))
     }
-  }, [])
+  }, [currentColor])
   useEffect(() => {
     if (userId !== 0) {
       fetchcUserBasketDevice(userId).then((data) => setBasketItem(data))
@@ -32,6 +28,7 @@ const Basket = observer(() => {
     setReload(false)
     //
   }, [userId, reload])
+
   return (
     <div
       className="basket"
