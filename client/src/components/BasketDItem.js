@@ -24,7 +24,7 @@ const BasketItem = ({ device, isReload }) => {
     }
   }, [reload, device.deviceId])
   return (
-    <Col>
+    <Col className="d-flex">
       {!device.deviceId ? (
         <Col>
           <Col>
@@ -54,8 +54,8 @@ const BasketItem = ({ device, isReload }) => {
           </Col>
         </Col>
       ) : (
-        <Col>
-          <Col>
+        <Col className="d-flex">
+          <Col className="d-inline-block">
             <Col
               md={3}
               className={'mt-3'}

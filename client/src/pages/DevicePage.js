@@ -56,7 +56,7 @@ const DevicePage = () => {
           arr.push(d.userId)
         })
         if (arr.includes(userId)) {
-          return alert('you posted')
+          return alert('you already posted rating')
         } else {
           add()
         }

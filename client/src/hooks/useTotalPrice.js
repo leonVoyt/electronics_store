@@ -19,7 +19,6 @@ export function useTotalPrice(basketItem) {
           currentValue !== null && accumulator + totalPrice[currentValue],
         0
       )
-      console.log(basketItem)
       return res
     }
   }, [basketItem.length])

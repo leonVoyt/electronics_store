@@ -14,7 +14,7 @@ const DeviceList = observer(({ onChange }) => {
     setDevices(device.devices)
   }, [])
   return (
-    <Row className="d-flex">
+    <Row className="d-flex" md={4}>
       {device.devices.map((device) => (
         <DeviceItem key={device.id} device={device} isChange={change} />
       ))}

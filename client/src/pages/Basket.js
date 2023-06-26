@@ -15,13 +15,14 @@ const Basket = observer(() => {
   const set = (data) => {
     setReload(data)
   }
-
   useEffect(() => {
     if (currentColor) {
       getUser(currentColor).then((data) => setUserId(data.data.id))
     }
   }, [currentColor])
   useEffect(() => {
+    console.log(basketItem.length)
+
     if (userId !== 0) {
       fetchcUserBasketDevice(userId).then((data) => setBasketItem(data))
     }
@@ -39,7 +40,7 @@ const Basket = observer(() => {
         padding: '1em',
       }}
     >
-      <Row className="d-flex m-4">
+      <Row className="d-flex m-4" md={basketItem.length < 6 ? 8 : 6}>
         {basketItem.map((device) => (
           <BasketItem key={device.id} device={device} isReload={set} />
         ))}
