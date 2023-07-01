@@ -5,6 +5,7 @@ import { getUser } from '../http/userAPI'
 import { Row } from 'react-bootstrap'
 import BasketItem from '../components/BasketDItem'
 import { useTotalPrice } from './../hooks/useTotalPrice'
+import '../styles/pages/Basket.css'
 
 const Basket = observer(() => {
   const currentColor = localStorage.getItem('user')
@@ -16,36 +17,36 @@ const Basket = observer(() => {
     setReload(data)
   }
   useEffect(() => {
-    if (currentColor) {
-      getUser(currentColor).then((data) => setUserId(data.data.id))
+    if (getUser(currentColor)) {
+      getUser(currentColor).then((data) => {
+        if (data.data !== null) {
+          setUserId(data.data.id)
+        }
+      })
     }
   }, [currentColor])
   useEffect(() => {
-    console.log(basketItem.length)
-
     if (userId !== 0) {
-      fetchcUserBasketDevice(userId).then((data) => setBasketItem(data))
+      fetchcUserBasketDevice(userId)
+        .then((data) => setBasketItem(data))
+        .catch((err) => console.log(err))
     }
     setReload(false)
     //
   }, [userId, reload])
 
   return (
-    <div
-      className="basket"
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        // paddingTop: '12em',
-        padding: '1em',
-      }}
-    >
-      <Row className="d-flex m-4" md={basketItem.length < 6 ? 8 : 6}>
+    <div className="basket">
+      <Row className="d-flex" md={basketItem.length < 5 ? 8 : 5}>
         {basketItem.map((device) => (
           <BasketItem key={device.id} device={device} isReload={set} />
         ))}
       </Row>
-      total price: {totalPrice} $
+      <div className="basket_total-price">
+        <div className="basket_total-price__price">
+          total price: {totalPrice} $
+        </div>
+      </div>
     </div>
   )
 })

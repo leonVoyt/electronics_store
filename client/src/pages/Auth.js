@@ -5,6 +5,7 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { login, registration } from '../http/userAPI'
 import { observer } from 'mobx-react-lite'
 import { Context } from './../index'
+import '../styles/pages/Auth.css'
 
 const Auth = observer(() => {
   const history = useNavigate()
@@ -33,51 +34,36 @@ const Auth = observer(() => {
   }
   return (
     <Container
-      className="d-flex justify-content-center align-items-center"
+      className="auth-container"
       style={{ height: window.innerHeight - 54 }}
     >
-      <Card style={{ width: 600 }} className="p-5">
+      <Card className="auth-container__card">
         <h2 className="m-auto">{isLogin ? 'Authorization' : 'Registration'}</h2>
-        <Form className="d-flex flex-column">
+        <Form className="auth-container__card__form">
           <Form.Control
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mt-3"
             placeholder="input your email"
           />
           <Form.Control
             type="password"
             value={password}
             onChange={(e) => setPass(e.target.value)}
-            className="mt-3"
             placeholder="input your password"
           />
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              marginTop: '1em',
-            }}
-          >
+          <div className="auth-container__card__form__content">
             {isLogin ? (
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <div
+                className="auth-container__card__form__content__text"
+                style={{ display: 'flex', justifyContent: 'space-between' }}
+              >
                 don`t have accaunt?
-                <NavLink
-                  to={REGISTRATION_ROUTE}
-                  style={{ color: 'blue', marginLeft: '1em' }}
-                >
-                  Registration!
-                </NavLink>
+                <NavLink to={REGISTRATION_ROUTE}>Registration!</NavLink>
               </div>
             ) : (
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <div className="auth-container__card__form__content__text">
                 have accaunt?
-                <NavLink
-                  to={LOGIN_ROUTE}
-                  style={{ color: 'blue', marginLeft: '1em' }}
-                >
-                  Come in!
-                </NavLink>
+                <NavLink to={LOGIN_ROUTE}>Come in!</NavLink>
               </div>
             )}
 

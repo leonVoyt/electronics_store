@@ -46,6 +46,7 @@ class DeviceController {
         where: { typeId },
         limit,
         offset,
+        order: [['id', 'DESC']],
       })
     }
     if (brandId && !typeId) {
@@ -53,16 +54,22 @@ class DeviceController {
         where: { brandId },
         limit,
         offset,
+        order: [['id', 'DESC']],
       })
     }
     if (!brandId && !typeId) {
-      devices = await Device.findAndCountAll({ limit, offset })
+      devices = await Device.findAndCountAll({
+        limit,
+        offset,
+        order: [['id', 'DESC']],
+      })
     }
     if (brandId && typeId) {
       devices = await Device.findAndCountAll({
         where: { typeId, brandId },
         limit,
         offset,
+        order: [['id', 'DESC']],
       })
     }
     return res.json(devices)

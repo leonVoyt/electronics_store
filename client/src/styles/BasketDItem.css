@@ -1,0 +1,31 @@
+.container-basketItem {
+  width: 150;
+  cursor: 'pointer';
+  margin-inline: 1em;
+  padding: 0.3em;
+}
+
+.container-basketItem__card {
+  width: 150px;
+  cursor: pointer;
+}
+
+.container-basketItem__card__device {
+  display: flex;
+  color: rgba(0, 0, 0, 0.505);
+  margin-top: 0.3em;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container-basketItem__card__rating {
+  margin-left: 1em;
+  display: flex;
+  align-items: center;
+}
+
+.container-basketItem button {
+  margin-block: 0.6em;
+}
+
+/* text-black-50 mt-1 d-flex justify-content-between align-items-center */

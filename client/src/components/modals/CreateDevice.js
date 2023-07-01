@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { Button, Col, Dropdown, Form, Modal, Row } from 'react-bootstrap'
 import { Context } from './../../index'
 import { fetchBrands, fetchTypes } from '../../http/deviceAPI'
@@ -24,7 +24,8 @@ const CreateDevice = observer(({ show, onHide }) => {
   useEffect(() => {
     fetchTypes().then((data) => device.setTypes(data))
     fetchBrands().then((data) => device.setBrands(data))
-  }, [device.brand, device.type])
+  }, [])
+  const memo = useMemo(() => {}, [])
 
   const changeInfo = (key, value, number) => {
     setInfo(info.map((i) => (i.number === number ? { ...i, [key]: value } : i)))
@@ -40,6 +41,8 @@ const CreateDevice = observer(({ show, onHide }) => {
       formData.append('typeId', device.selectedType.id)
       formData.append('info', JSON.stringify(info))
       createDevice(formData).then(() => onHide())
+      device.setSelectedType({})
+      device.setSelectedBrand({})
     } catch (error) {
       alert('form don`t filled')
     }
@@ -68,7 +71,6 @@ const CreateDevice = observer(({ show, onHide }) => {
           </Dropdown>
           <Dropdown className="mt-2">
             <Dropdown.Toggle>
-              {' '}
               {device.selectedBrand.name || 'select brand'}
             </Dropdown.Toggle>
             <Dropdown.Menu>

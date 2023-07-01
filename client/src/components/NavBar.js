@@ -12,6 +12,7 @@ import Button from 'react-bootstrap/Button'
 import { useContext } from 'react'
 import { Context } from '../index'
 import { observer } from 'mobx-react-lite'
+import '../styles/Bar/NavigBar.css'
 
 const Navigbar = observer(() => {
   const currentColor = localStorage.getItem('user')
@@ -24,34 +25,22 @@ const Navigbar = observer(() => {
     user.setIsAuth(false)
   }
   return (
-    <Navbar
-      bg="dark"
-      data-bs-theme="dark"
-      style={{
-        textAlign: 'center',
-        justifyContent: 'center',
-      }}
-    >
+    <Navbar className="navbar" bg="dark" data-bs-theme="dark">
       <Container>
-        <NavLink
-          style={{ color: 'white', textDecoration: 'none' }}
-          to={SHOP_ROUTE}
-        >
+        <NavLink className="navbar__logo" to={SHOP_ROUTE}>
           Electronic shoper
         </NavLink>
         {currentColor ? (
-          <Nav className="ml-auto " style={{ color: 'white' }}>
+          <Nav className="navbar__btns">
             <Button
               variant={'outline-light'}
               onClick={() => history(BASKET_ROUTE)}
-              style={{ marginLeft: '1em' }}
             >
               Basket
             </Button>
             <Button
               variant={'outline-light'}
               onClick={() => history(ADMIN_ROUTE)}
-              style={{ marginLeft: '1em' }}
             >
               Admin panel
             </Button>
@@ -62,16 +51,13 @@ const Navigbar = observer(() => {
                 localStorage.removeItem('user')
                 logOut()
               }}
-              style={{ marginLeft: '1em' }}
             >
               Exit
             </Button>
-            <h6 style={{ marginLeft: '1em', marginTop: '0.4em' }}>
-              {currentColor}
-            </h6>
+            <h6>{currentColor}</h6>
           </Nav>
         ) : (
-          <Nav className="ml-auto" style={{ color: 'white' }}>
+          <Nav className="navbar__btns">
             <Button
               variant={'outline-light'}
               onClick={() => history(LOGIN_ROUTE)}

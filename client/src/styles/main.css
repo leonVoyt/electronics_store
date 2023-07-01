@@ -1,9 +1,15 @@
-/* * {
-  background: rgb(155, 145, 145);
-} */
-.RatingImage {
-  transform: scale(1.2);
+* {
+  margin: 0;
+  padding: 0;
 }
 .RatingImage {
   transform: scale(1.2);
+}
+
+html,
+body {
+  height: 100%;
+}
+#root {
+  height: 100%;
 }

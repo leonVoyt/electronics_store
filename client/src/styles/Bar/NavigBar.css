@@ -1,0 +1,20 @@
+.navbar {
+  text-align: center;
+  justify-content: center;
+}
+.navbar__logo {
+  color: white;
+  text-decoration: none;
+}
+.navbar__btns {
+  margin-left: auto;
+  color: white;
+}
+.navbar__btns button {
+  margin-left: 1em;
+}
+.navbar__btns h6 {
+  display: flex;
+  align-items: center;
+  margin-left: 1em;
+}

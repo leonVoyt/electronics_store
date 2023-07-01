@@ -1,0 +1,28 @@
+.shop-container_filter {
+  display: flex;
+  justify-content: space-between;
+}
+.shop-container {
+  height: 100%;
+  background-image: url(../../assets/23123.jpg);
+  background-repeat: repeat-y;
+}
+
+.shop-container_device--list {
+  display: flex;
+}
+.shop-container__pagination {
+  position: absolute;
+
+  bottom: 0px;
+}
+.shop-container_filter__item {
+  margin-top: 1em;
+}
+.shop-container_filter__item__button {
+  width: 8em;
+}
+.shop-container_filter__item__variants {
+  text-align: center;
+  height: 2em;
+}

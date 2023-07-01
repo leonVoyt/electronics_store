@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Button, Card, Col, Image } from 'react-bootstrap'
 import star from '../assets/star.png'
 import { useNavigate } from 'react-router-dom'
 import { deleteUserBasketDevice, fetchOneDevice } from '../http/deviceAPI'
-
+import '../styles/BasketDItem.css'
+import notAvaible from '../assets/287.jpg'
+import useHover from '../hooks/useHover'
 const BasketItem = ({ device, isReload }) => {
   const [basketDevice, setBasketDevice] = useState({})
   const history = useNavigate()
   const [reload, setReload] = useState(true)
+  const ref = useRef()
 
+  const isHover = useHover(ref)
   const deleteDevice = () => {
     deleteUserBasketDevice(device.id)
       .catch((err) => console.log(err))
@@ -24,77 +28,73 @@ const BasketItem = ({ device, isReload }) => {
     }
   }, [reload, device.deviceId])
   return (
-    <Col className="d-flex">
+    <Col className="container-basketItem">
       {!device.deviceId ? (
         <Col>
-          <Col>
-            <Col md={3} className={'mt-3'}>
-              <Card style={{ width: 150, cursor: 'pointer' }} border={'light'}>
-                <Image
-                  width={150}
-                  height={150}
-                  src={process.env.REACT_APP_API_URL}
-                />
-                <div className="text-black-50 mt-1 d-flex justify-content-between align-items-center">
-                  {/* <div>price:{basketDevice.price}$</div> */}
-
-                  <div className="d-flex align-items-center"></div>
+          <Col md={3}>
+            <div className="container-basketItem__card">
+              <Image
+                ref={ref}
+                style={{ transform: isHover.isHover && 'scale(1.1)' }}
+                width={150}
+                height={150}
+                src={notAvaible}
+              />
+              <div className="container-basketItem__card__device">
+                <div className="container-basketItem__card__rating">
+                  Device is not actuality
                 </div>
-              </Card>
-            </Col>
-            <Button
-              style={{ marginTop: '1em' }}
-              variant={'outline-danger'}
-              onClick={() => {
-                deleteDevice()
-              }}
-            >
-              delete
-            </Button>
+              </div>
+            </div>
           </Col>
+          <Button
+            variant={'outline-danger'}
+            onClick={() => {
+              deleteDevice()
+            }}
+          >
+            delete
+          </Button>
         </Col>
       ) : (
-        <Col className="d-flex">
-          <Col className="d-inline-block">
-            <Col
-              md={3}
-              className={'mt-3'}
-              onClick={() => history(`/device/${device.deviceId}`)}
-            >
-              <Card style={{ width: 150, cursor: 'pointer' }} border={'light'}>
-                <Image
-                  width={150}
-                  height={150}
-                  src={process.env.REACT_APP_API_URL + basketDevice.img}
-                />
-                <div>price:{basketDevice.price}$</div>
-                <div className="text-black-50 mt-1 d-flex justify-content-between align-items-center">
-                  {/* <div>price:{basketDevice.price}$</div> */}
-                  <div>{basketDevice.name}</div>
+        <Col className="container-basketItem">
+          <Col
+            md={3}
+            className={'mt-3'}
+            onClick={() => history(`/device/${device.deviceId}`)}
+          >
+            <Card border={'light'} className="container-basketItem__card">
+              <Image
+                ref={ref}
+                style={{ transform: isHover.isHover && 'scale(1.1)' }}
+                width={150}
+                height={150}
+                src={
+                  process.env.REACT_APP_API_URL &&
+                  basketDevice.img &&
+                  process.env.REACT_APP_API_URL + basketDevice.img
+                }
+              />
+              <div>price:{basketDevice.price}$</div>
+              <div className="container-basketItem__card__device">
+                <div>{basketDevice.name}</div>
 
-                  <div className="d-flex align-items-center">
-                    <div>{basketDevice.rating}</div>
-                    <Image width={18} height={18} src={star} />
-                  </div>
+                <div className="container-basketItem__card__rating">
+                  <div>{basketDevice.rating}</div>
+                  <Image width={18} height={18} src={star} />
                 </div>
-                <Button
-                  style={{ marginTop: '1em' }}
-                  variant={'outline-success'}
-                >
-                  Buy
-                </Button>
-              </Card>
-            </Col>
-            <Button
-              style={{ marginTop: '1em' }}
-              variant={'outline-danger'}
-              onClick={() => {
-                deleteDevice()
-              }}
-            >
-              delete
-            </Button>
+              </div>
+              <Button variant={'outline-success'}>Buy</Button>
+            </Card>
           </Col>
+          <Button
+            variant={'outline-danger'}
+            onClick={() => {
+              deleteDevice()
+            }}
+          >
+            delete
+          </Button>
         </Col>
       )}
     </Col>

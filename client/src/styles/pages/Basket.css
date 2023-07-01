@@ -1,0 +1,12 @@
+.basket {
+  display: flex;
+  justify-content: space-between;
+  padding: 1em;
+}
+.basket_total-price {
+  display: flex;
+  justify-content: end;
+}
+.basket_total-price__price {
+  position: absolute;
+}
