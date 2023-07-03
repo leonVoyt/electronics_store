@@ -59,7 +59,6 @@ const Shop = observer(() => {
     await setArr(res)
     return arr
   }
-  console.log(loading)
 
   const getLimit = (data) => {
     setLimit(data)

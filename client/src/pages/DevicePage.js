@@ -76,10 +76,14 @@ const DevicePage = () => {
   }
 
   async function addToBasket() {
-    const formData = new FormData()
-    formData.append('basketId', `${userId}`)
-    formData.append('deviceId', `${device.id}`)
-    await createBasketDevice(formData)
+    try {
+      const formData = new FormData()
+      formData.append('basketId', `${userId}`)
+      formData.append('deviceId', `${device.id}`)
+      await createBasketDevice(formData)
+    } catch (error) {
+      alert('you do`nt authorizated ')
+    }
   }
 
   return (
