@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext, useEffect, useState } from 'react'
 import { Context } from './../index'
-import { Row } from 'react-bootstrap'
+import { Col, Row } from 'react-bootstrap'
 import DeviceItem from './DeviceItem'
 import { fetchDevice } from '../http/deviceAPI'
 const DeviceList = observer(({ onChange }) => {
@@ -14,12 +14,19 @@ const DeviceList = observer(({ onChange }) => {
   useEffect(() => {
     setDevices(device.devices)
   }, [])
+  console.log(device.devices)
 
   return (
     <Row className="shop-container_device--list" md={5}>
-      {device.devices.map((device) => (
-        <DeviceItem key={device.id} device={device} isChange={change} />
-      ))}
+      {device.devices.length === 0 ? (
+        <Col md={12}>
+          <h1>No such devices</h1>
+        </Col>
+      ) : (
+        device.devices.map((device) => (
+          <DeviceItem key={device.id} device={device} isChange={change} />
+        ))
+      )}
     </Row>
   )
 })
