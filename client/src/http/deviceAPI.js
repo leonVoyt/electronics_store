@@ -18,8 +18,12 @@ export const fetchBrands = async () => {
 }
 
 export const createDevice = async (device) => {
-  const { data } = await $autHost.post('api/device', device)
-  return data
+  try {
+    const { data } = await $autHost.post('api/device', device)
+    return data
+  } catch (error) {
+    console.log(error)
+  }
 }
 export const fetchDevice = async (typeId, brandId, page, limit = 9) => {
   const { data } = await $host.get('api/device', {

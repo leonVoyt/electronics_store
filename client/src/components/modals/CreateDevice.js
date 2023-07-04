@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Col, Dropdown, Form, Modal, Row } from 'react-bootstrap'
 import { Context } from './../../index'
 import { fetchBrands, fetchTypes } from '../../http/deviceAPI'
 import { observer } from 'mobx-react-lite'
 import { createDevice } from './../../http/deviceAPI'
-const CreateDevice = observer(({ show, onHide }) => {
+const CreateDevice = observer(({ show, onHide, state }) => {
   const { device } = useContext(Context)
   const [info, setInfo] = useState([])
   const [name, setName] = useState('')
@@ -20,31 +20,39 @@ const CreateDevice = observer(({ show, onHide }) => {
   const selectFile = (e) => {
     setFile(e.target.files[0])
   }
-
-  useEffect(() => {
+  const fetch = () => {
     fetchTypes().then((data) => device.setTypes(data))
     fetchBrands().then((data) => device.setBrands(data))
-  }, [])
-  const memo = useMemo(() => {}, [])
+  }
+
+  useEffect(() => {
+    fetch()
+  }, [state])
 
   const changeInfo = (key, value, number) => {
     setInfo(info.map((i) => (i.number === number ? { ...i, [key]: value } : i)))
   }
 
   const addDevice = () => {
-    try {
-      const formData = new FormData()
-      formData.append('name', name)
-      formData.append('price', `${price}`)
-      formData.append('img', file)
-      formData.append('brandId', device.selectedBrand.id)
-      formData.append('typeId', device.selectedType.id)
-      formData.append('info', JSON.stringify(info))
+    const formData = new FormData()
+    formData.append('name', name)
+    formData.append('price', `${price}`)
+    formData.append('img', file)
+    formData.append('brandId', device.selectedBrand.id)
+    formData.append('typeId', device.selectedType.id)
+    formData.append('info', JSON.stringify(info))
+    if (
+      !name ||
+      !price ||
+      !file ||
+      !device.selectedBrand.id ||
+      !device.selectedBrand.id
+    ) {
+      alert('form don`t filled')
+    } else {
       createDevice(formData).then(() => onHide())
       device.setSelectedType({})
       device.setSelectedBrand({})
-    } catch (error) {
-      alert('form don`t filled')
     }
   }
   return (

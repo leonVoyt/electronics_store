@@ -9,6 +9,8 @@ const Admin = () => {
   const [typeVisible, setTypeVisible] = useState(false)
   const [deviceVisible, setDeviceVisible] = useState(false)
 
+  const [state, setState] = useState(false)
+
   return (
     <Container className="admin-container">
       <Button onClick={() => setTypeVisible(true)} variant={'outline-dark'}>
@@ -17,11 +19,18 @@ const Admin = () => {
       <Button onClick={() => setBrandVisible(true)} variant={'outline-dark'}>
         Add brand
       </Button>
-      <Button onClick={() => setDeviceVisible(true)} variant={'outline-dark'}>
+      <Button
+        onClick={() => {
+          setDeviceVisible(true)
+          setState(!state)
+        }}
+        variant={'outline-dark'}
+      >
         Add device
       </Button>
       <CreateBrand show={brandVisible} onHide={() => setBrandVisible(false)} />
       <CreateDevice
+        state={state}
         show={deviceVisible}
         onHide={() => setDeviceVisible(false)}
       />
