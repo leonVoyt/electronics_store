@@ -30,9 +30,10 @@ const BrandBar = observer(() => {
               >
                 {brand.name}
               </Dropdown.Item>
-              <Dropdown.Divider />
             </div>
           ))}
+          <Dropdown.Divider />
+
           <Dropdown.Item
             eventKey="4"
             onClick={() => device.setSelectedBrand({})}

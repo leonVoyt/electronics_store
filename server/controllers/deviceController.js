@@ -9,7 +9,7 @@ class DeviceController {
       let { name, price, brandId, typeId, info } = req.body
       const { img } = req.files
       let fileName = uuid.v4() + '.jpg'
-      img.mv(path.resolve(__filename, '..', '..', 'static', fileName))
+      img.mv(path.resolve(__dirname, '..', 'static', fileName))
       const device = await Device.create({
         name,
         price,
@@ -38,7 +38,7 @@ class DeviceController {
 
     let { brandId, typeId, limit, page } = req.query
     page = page || 1
-    limit = limit || 9
+    limit = limit || 8
     let offset = page * limit - limit
     let devices
     if (!brandId && typeId) {
