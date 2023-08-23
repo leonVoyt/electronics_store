@@ -99,7 +99,7 @@ const Shop = observer(() => {
       })
       .then(() => setReload(false))
       .finally(() => setLoading(false))
-  }, [arr])
+  }, [])
 
   if (loading) {
     return <Spinner animation={'grow'} />
