@@ -57,7 +57,6 @@ const Shop = observer(() => {
       })
     }
     await device.setDevices(res)
-    await setArr(res)
     return arr
   }
 
@@ -79,18 +78,18 @@ const Shop = observer(() => {
         device.setTotalCount(data.count)
         setArr(data.rows)
         setTotalDevice(data.count)
+        device.setDevices(data.rows)
       })
-      .then(() => device.setDevices(arr))
       .finally(() => setLoading(false))
-  }, [])
+  }, [device.page, device.selectedType, device.selectedBrand, limit, reload])
   useEffect(() => {
     fetchTypes().then((data) => device.setTypes(data))
     fetchBrands().then((data) => device.setBrands(data))
     fetchDevice(null, null, 1, limit)
       .then((data) => {
         device.setTotalCount(data.count)
+        device.setDevices(data.rows)
       })
-      .then(() => device.setDevices(arr))
       .then(() => {
         if (arr.length !== 0) {
           const item = localStorage.getItem('filter')

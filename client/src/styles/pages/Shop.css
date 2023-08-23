@@ -10,6 +10,7 @@
 
 .shop-container_device--list {
   display: flex;
+  min-height: 510px;
 }
 .shop-container__pagination {
   position: absolute;
