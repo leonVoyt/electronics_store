@@ -82,7 +82,7 @@ const Shop = observer(() => {
       })
       .then(() => device.setDevices(arr))
       .finally(() => setLoading(false))
-  }, [device.page, device.selectedType, device.selectedBrand, limit, reload])
+  }, [])
   useEffect(() => {
     fetchTypes().then((data) => device.setTypes(data))
     fetchBrands().then((data) => device.setBrands(data))
