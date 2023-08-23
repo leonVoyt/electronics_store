@@ -52,6 +52,7 @@ const Shop = observer(() => {
           return -1
         }
         // a должно быть равным b
+        //test
         return 0
       })
     }
